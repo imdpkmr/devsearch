@@ -2,8 +2,33 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 
+projectsList = [
+    {
+        'id':'1',
+        'title':"Ecommerce Website",
+        'description':"Fully functional ecommerce website",
+    },
+    {
+        'id':'2',
+        'title':"Portfolio Website",
+        'description':"This was a project where I built out my protofolio",
+    },
+    {
+        'id':'3',
+        'title':"Social Network",
+        'description':"Awesome open source project I am still working on",
+    },
+]
+
 def projects(requests):
-    return render(requests, 'projects/projects.html')
+    page = 'sampel page from projects'
+    number = 1
+    context = {'page':page, 'number':number, 'projects':projectsList}
+    return render(requests, 'projects/projects.html', context)
 
 def project(reqeusts, pk):
-    return render(reqeusts, 'projects/project.html')
+    projectObj = None
+    for i in projectsList:
+        if i['id'] == pk:
+            projectObj = i
+    return render(reqeusts, 'projects/project.html', {'project': projectObj}) 
