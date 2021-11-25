@@ -5,4 +5,4 @@ class ProjectForm(ModelForm):
     # generate all editable fields of Project Model from models.py
     class Meta:
         model = Project
-        fields = '__all__'
+        fields = ['title', 'description', 'demo_link', 'source_link', 'tags']
