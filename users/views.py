@@ -9,9 +9,9 @@ def profiles(request):
 
 def userProfile(request, pk):
     profile = Profile.objects.get(id=pk)
-    # every skill that doesn't have a description
+    # every skill that doesn't have a description is excluded
     topSkills = profile.skill_set.exclude(description__exact="")
-    # every string that has a description
+    # every string that doesn't have a description is filterd out
     otherSkills = profile.skill_set.filter(description="")
     context = {'profile':profile, 'topSkills':topSkills, 'otherSkills':otherSkills}
     return render(request, 'users/user-profile.html', context)
