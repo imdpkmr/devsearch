@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'mywebsite.com']
 
 
 # Application definition
-
+# connecting all the apps of the project with the root app, using the name <project-name>/apps(apps.py)/<app>Config(name of the config method of the app)
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
