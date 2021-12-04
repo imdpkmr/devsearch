@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .models import Project
 from .forms import ProjectForm
+from users.models import User
 
 def projects(requests):
     projects = Project.objects.all()
