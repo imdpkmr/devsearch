@@ -1,8 +1,11 @@
+from django.contrib.auth import login
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .models import Project
 from .forms import ProjectForm
 from users.models import User
+from django.contrib.auth.decorators import login_required
+
 
 def projects(requests):
     projects = Project.objects.all()
@@ -13,6 +16,8 @@ def project(reqeusts, pk):
     projectObj = Project.objects.get(id=pk)
     return render(reqeusts, 'projects/project.html', {'project': projectObj}) 
 
+# the following decorator will restrict the access of the below view to only signed in users
+@login_required(login_url='login')
 def createProject(request):
     form = ProjectForm()
     if request.method == 'POST':
@@ -24,7 +29,7 @@ def createProject(request):
     context = {'form': form}
     return render(request, "projects/project_form.html", context)
 
-
+@login_required(login_url='login')
 def updateProject(request, pk):
     project = Project.objects.get(id=pk)
     form = ProjectForm(instance=project)
@@ -37,6 +42,7 @@ def updateProject(request, pk):
     context = {'form': form}
     return render(request, "projects/project_form.html", context)
 
+@login_required(login_url='login')
 def deleteProject(request, pk):
     project = Project.objects.get(id=pk)
     if request.method == 'POST':
