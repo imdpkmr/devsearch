@@ -1,20 +1,21 @@
 from django.contrib.auth import login
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+
+from projects.utils import searchProjects
 from .models import Project
 from .forms import ProjectForm
-from users.models import User
 from django.contrib.auth.decorators import login_required
+from .utils import searchProjects
 
 
-def projects(requests):
-    projects = Project.objects.all()
-    context = {'projects':projects}
-    return render(requests, 'projects/projects.html', context)
+def projects(request):
+    search_query, projects = searchProjects(request)
+    context = {'projects':projects, 'search_query':search_query}
+    return render(request, 'projects/projects.html', context)
 
-def project(reqeusts, pk):
+def project(reqeust, pk):
     projectObj = Project.objects.get(id=pk)
-    return render(reqeusts, 'projects/project.html', {'project': projectObj}) 
+    return render(reqeust, 'projects/project.html', {'project': projectObj}) 
 
 # the following decorator will restrict the access of the below view to only signed in users
 @login_required(login_url='login')
