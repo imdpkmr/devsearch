@@ -1,8 +1,9 @@
 from django.contrib.auth import login
 from django.shortcuts import redirect, render
-from .models import Project
-from .forms import ProjectForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Project
+from .forms import ProjectForm, ReviewForm
 from .utils import searchProjects, paginateProjects
 
 def projects(request):
@@ -11,9 +12,22 @@ def projects(request):
     context = {'projects':projects, 'search_query':search_query, 'paginator':paginator, 'custom_range':custom_range}
     return render(request, 'projects/projects.html', context)
 
-def project(reqeust, pk):
+def project(request, pk):
     projectObj = Project.objects.get(id=pk)
-    return render(reqeust, 'projects/project.html', {'project': projectObj}) 
+    form = ReviewForm()
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        review = form.save(commit=False)
+        review.project = projectObj
+        review.owner = request.user.profile
+        review.save()
+        projectObj.getVoteCount
+        messages.success(request, 'Your review was successfully submitted!')
+        return redirect('project', pk=projectObj.id)
+
+    context = {'project': projectObj, 'form':form}
+    return render(request, 'projects/project.html', context = context) 
 
 # the following decorator will restrict the access of the below view to only signed in users
 @login_required(login_url='login')
