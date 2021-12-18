@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 def paginateProjects(request, projects, results):
     page = request.GET.get('page')
-    results = 3 #results per page
+    results = results #results per page
     paginator = Paginator(projects, results)
     try:
         projects = paginator.page(page)

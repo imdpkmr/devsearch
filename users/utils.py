@@ -4,7 +4,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 def paginateProfiles(request, profiles, results):
     page = request.GET.get('page')
-    results = 1 #results per page
+    results = results #results per page
     paginator = Paginator(profiles, results)
     try:
         profiles = paginator.page(page)
