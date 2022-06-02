@@ -11,16 +11,13 @@ def getRoutes(request):
         {'GET':'/api/projects/'},
         {'GET':'/api/projects/id'},
         {'POST':'/api/projects/id/vote'},
-
         {'POST':'/api/users/token'},
         {'POST':'/api/users/token/refresh'},
-
-
     ]
     return Response(routes)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def getProjects(request):
     print('USER:', request.user)
     projects = Project.objects.all()
@@ -39,15 +36,12 @@ def projectVote(request, pk):
     project = Project.objects.get(id=pk)
     user = request.user.profile
     data = request.data
-
     review, created = Review.objects.get_or_create(
         owner=user,
         project=project,
     )
-
     review.value = data['value']
     review.save()
     project.getVoteCount
-
     serializer = ProjectSerializer(project, many=False)
     return Response(serializer.data)
