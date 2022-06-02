@@ -4,3 +4,4 @@
 /devsearch/__pychache__/  
 /migrations/__pychache__/
 /__pychache__/
+*.pyc
